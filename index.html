@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IOC Nông nghiệp & Môi trường — Tỉnh Sơn La</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Roboto+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:        #f4f7f5;
+  --surface:   #ffffff;
+  --ink:       #16271d;
+  --ink-2:     #4a6354;
+  --ink-3:     #7d9286;
+  --line:      #e1e9e3;
+  --green:     #1f7a4c;
+  --green-d:   #155c39;
+  --cyan:      #1c93a8;
+  --gold:      #c9772f;
+  --red:       #c1272d;
+  --shadow:    0 4px 18px rgba(22,39,29,0.07);
+  --shadow-lg: 0 16px 38px rgba(22,39,29,0.16);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'Be Vietnam Pro',system-ui,sans-serif; font-size:14px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none;}
+
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 28px; background:rgba(255,255,255,0.92);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:50; backdrop-filter:blur(8px);
+  flex-wrap:wrap; gap:12px;
+}
+.nav-brand{display:flex;align-items:center;gap:12px;}
+.nav-logo{
+  width:42px;height:42px;border-radius:10px;
+  background:linear-gradient(135deg,var(--green),var(--cyan));
+  display:grid;place-items:center;font-weight:800;font-size:11px;color:#fff;
+  box-shadow:var(--shadow);
+}
+.nav-brand-text .l1{font-size:13.5px;font-weight:800;letter-spacing:0.01em;line-height:1.25;color:var(--ink);}
+.nav-brand-text .l2{font-size:10.5px;color:var(--ink-3);letter-spacing:0.03em;}
+.nav-menu{display:flex;gap:4px;flex-wrap:wrap;}
+.nav-menu a{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;
+  color:var(--ink-2); transition:background .15s, color .15s;
+}
+.nav-menu a:hover{background:#eef4f0;color:var(--ink);}
+.nav-menu a.active{background:var(--green); color:#fff;}
+.nav-right{display:flex;align-items:center;gap:18px;font-size:12px;color:var(--ink-3);}
+.nav-right .seg{display:flex;align-items:center;gap:6px;}
+.nav-right strong{color:var(--ink);font-weight:600;}
+.nav-user{
+  display:flex;align-items:center;gap:7px;
+  background:#eef4f0; padding:7px 13px;border-radius:8px;
+  font-size:12px;font-weight:600; color:var(--ink);
+}
+
+.hero{ position:relative; overflow:hidden; min-height:340px; display:flex;flex-direction:column;justify-content:flex-end; }
+.hero-art{ position:absolute; inset:0; z-index:0; }
+.hero-art svg{ width:100%; height:100%; }
+.hero-overlay{
+  position:absolute; inset:0; z-index:1;
+  background: linear-gradient(180deg, rgba(244,247,245,0.05) 0%, rgba(244,247,245,0.35) 60%, rgba(244,247,245,0.97) 100%);
+}
+.hero-content{ position:relative; z-index:2; padding:50px 28px 0; max-width:1300px; margin:0 auto; width:100%; }
+.hero-content h1{
+  font-size:clamp(24px,3vw,34px); font-weight:800; letter-spacing:0.01em; margin-bottom:6px;
+  color:#0e2417; text-shadow: 0 2px 12px rgba(255,255,255,0.6);
+}
+.hero-content .sub{
+  font-size:clamp(15px,1.8vw,19px); font-weight:700; color:var(--green-d); margin-bottom:14px; letter-spacing:0.01em;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.6);
+}
+.hero-content .desc{ font-size:13.5px; color:#1e3a2a; max-width:640px; line-height:1.6; font-weight:500; }
+
+.stat-strip{
+  position:relative; z-index:2;
+  max-width:1300px; margin:26px auto 0; padding:0 28px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+}
+.stat-card{
+  background:rgba(255,255,255,0.85); border:1px solid var(--line); border-radius:12px;
+  padding:16px 18px; display:flex; align-items:center; gap:14px;
+  backdrop-filter:blur(6px); box-shadow:var(--shadow);
+}
+.stat-ico{
+  width:42px;height:42px;border-radius:10px; display:grid;place-items:center; font-size:18px;
+  background:#eef4f0;
+}
+.stat-card .num{ font-size:22px;font-weight:800; line-height:1; color:var(--ink); }
+.stat-card .lbl{ font-size:11px;color:var(--ink-3); margin-top:4px; }
+
+.body-pad{ height:30px; }
+
+.section{ max-width:1300px; margin:0 auto; padding:0 28px; }
+.domain-grid{
+  display:grid; grid-template-columns:repeat(6,1fr); gap:13px; margin-bottom:24px;
+}
+.domain-tile{
+  position:relative;
+  border-radius:14px; padding:16px 14px; min-height:108px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  border:1px solid rgba(255,255,255,0.25); overflow:hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+  color:#fff;
+}
+.domain-tile.live{ cursor:pointer; }
+.domain-tile.live:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+.domain-tile.soon{ opacity:0.62; }
+.domain-tile .ico{ font-size:22px; }
+.domain-tile .name{ font-size:12.5px; font-weight:700; line-height:1.3; }
+.domain-tile .desc{ font-size:10px; color:rgba(255,255,255,0.78); line-height:1.35; margin-top:2px; }
+.domain-tile .pulse{
+  position:absolute; top:10px; right:10px; width:7px;height:7px;border-radius:50%;
+  background:#baffd8; box-shadow:0 0 0 0 rgba(186,255,216,0.8);
+  animation: pulse 2.2s infinite;
+}
+@keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(186,255,216,0.7);} 70%,100%{box-shadow:0 0 0 7px rgba(186,255,216,0);} }
+
+.dt-datdai      { background:linear-gradient(150deg,#caa856,#8a6a23); }
+.dt-khoangsan   { background:linear-gradient(150deg,#e3a35f,#a85e1f); }
+.dt-trongtrot   { background:linear-gradient(150deg,#6fbf85,#2f7a44); }
+.dt-channuoi    { background:linear-gradient(150deg,#d49a5a,#8a5320); }
+.dt-thuy        { background:linear-gradient(150deg,#4fb2c4,#1c6f86); }
+.dt-thuysan     { background:linear-gradient(150deg,#4a90d9,#1d5fa3); }
+.dt-nongthonmoi { background:linear-gradient(150deg,#6fae7a,#2f6e3f); }
+.dt-lamnghiep   { background:linear-gradient(150deg,#52b878,#1f7a4c); }
+.dt-thuyloi     { background:linear-gradient(150deg,#4f8db0,#1d5478); }
+.dt-tainguyennuoc{ background:linear-gradient(150deg,#4cb8d8,#1d7fa0); }
+.dt-moitruong   { background:linear-gradient(150deg,#9a7cc4,#5a3a8c); }
+.dt-baocao      { background:linear-gradient(150deg,#a766c4,#6c2f8c); }
+
+/* Generic merged tile (dùng chung cho Lâm nghiệp, Trồng trọt, ...) */
+.tile-merged{
+  display:flex; flex-direction:row; align-items:stretch; justify-content:space-between;
+  gap:10px; padding:14px;
+}
+.tile-merged.span2{ grid-column: span 2; }
+.tile-merged.span3{ grid-column: span 3; }
+.lnm-head{ display:flex; flex-direction:column; justify-content:center; min-width:110px; }
+.lnm-head .ico{ font-size:22px; margin-bottom:4px; }
+.lnm-head .name{ font-size:12.5px; font-weight:800; line-height:1.25; }
+.lnm-actions{ display:flex; flex-direction:column; gap:5px; flex:1; justify-content:center; }
+.lnm-actions.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+.lnm-btn{
+  display:flex; align-items:center; justify-content:space-between; gap:7px;
+  background:rgba(255,255,255,0.16); border:1px solid rgba(255,255,255,0.30);
+  border-radius:8px; padding:6px 10px; font-size:10.5px; font-weight:600; color:#fff;
+  transition: background .15s ease; white-space:nowrap; overflow:hidden;
+}
+.lnm-btn:hover{ background:rgba(255,255,255,0.28); }
+.lnm-btn .dot{ width:5px;height:5px;border-radius:50%; background:#baffd8; flex-shrink:0; display:inline-block; }
+.lnm-btn .lbl{ flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+.panels-grid{ display:grid; grid-template-columns: 1.3fr 1fr 1fr; gap:16px; margin-bottom:32px; }
+.panel{
+  background:var(--surface); border:1px solid var(--line); border-radius:12px; overflow:hidden; box-shadow:var(--shadow);
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:13px 16px; background:#fafcfb; border-bottom:1px solid var(--line);
+}
+.panel-head h3{ font-size:11.5px; font-weight:700; letter-spacing:0.06em; color:var(--ink-2); text-transform:uppercase; }
+.panel-head .more{ font-size:11px; color:var(--green); font-weight:600; }
+.panel-body{ padding:16px; }
+
+.map-svg{ width:100%; height:200px; }
+.map-legend{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; font-size:11px; color:var(--ink-3); }
+.map-legend span{ display:inline-flex; align-items:center; gap:5px; }
+.map-legend i{ width:8px;height:8px;border-radius:50%;display:inline-block; }
+.map-btn{
+  margin-top:14px; width:100%; padding:10px; border-radius:8px; border:none;
+  background:var(--green); color:#fff; font-weight:600; font-size:12.5px; cursor:pointer;
+}
+
+.donut-wrap{ display:flex; align-items:center; gap:18px; }
+.donut-legend{ display:flex; flex-direction:column; gap:7px; flex:1; }
+.donut-legend .row{ display:flex; justify-content:space-between; align-items:center; font-size:11.5px; }
+.donut-legend .row .k{ display:flex; align-items:center; gap:7px; color:var(--ink-2); }
+.donut-legend .row i{ width:8px;height:8px;border-radius:2px; display:inline-block; }
+.donut-legend .row .v{ font-weight:700; color:var(--ink); }
+
+.feed-item{ display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+.feed-item:last-child{ border-bottom:none; }
+.feed-ico{
+  width:34px;height:34px;border-radius:8px;flex-shrink:0;
+  display:grid;place-items:center;font-size:15px;
+}
+.feed-ico.news{ background:rgba(28,147,168,0.12); }
+.feed-ico.alert{ background:rgba(193,39,45,0.12); }
+.feed-txt .t{ font-size:12px; font-weight:600; line-height:1.4; color:var(--ink); }
+.feed-txt .d{ font-size:10.5px; color:var(--ink-3); margin-top:3px; }
+
+footer{
+  border-top:1px solid var(--line); padding:26px 28px; margin-top:10px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  font-size:11.5px; color:var(--ink-3);
+}
+footer .f-left div:first-child{ color:var(--ink-2); font-weight:600; margin-bottom:3px;}
+.f-social{ display:flex; gap:10px; }
+.f-social span{
+  width:30px;height:30px;border-radius:8px;background:#eef4f0;
+  display:grid;place-items:center;font-size:13px;
+}
+
+@media (max-width: 1100px){
+  .domain-grid{ grid-template-columns:repeat(3,1fr); }
+  .tile-merged.span2,.tile-merged.span3{ grid-column: span 3; }
+  .panels-grid{ grid-template-columns:1fr; }
+  .stat-strip{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:600px){
+  .nav-menu{ display:none; }
+  .domain-grid{ grid-template-columns:repeat(2,1fr); }
+  .tile-merged.span2,.tile-merged.span3{ grid-column: span 2; flex-direction:column; }
+  .lnm-actions.grid2{ grid-template-columns:1fr; }
+  .stat-strip{ grid-template-columns:1fr 1fr; }
+  .hero-content{ padding:36px 18px 0; }
+  .section{ padding:0 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">IOC</div>
+    <div class="nav-brand-text">
+      <div class="l1">IOC NÔNG NGHIỆP VÀ MÔI TRƯỜNG<br>TỈNH SƠN LA</div>
+      <div class="l2">TRUNG TÂM ĐIỀU HÀNH THÔNG MINH</div>
+    </div>
+  </div>
+  <div class="nav-menu">
+    <a class="active" href="#">🏠 Trang chủ</a>
+    <a href="#section-domains">📡 Giám sát</a>
+    <a href="#section-panels">📊 Báo cáo</a>
+    <a href="#section-panels">🔔 Cảnh báo</a>
+    <a href="#section-domains">🗂 Dữ liệu</a>
+    <a href="#">⚙️ Hệ thống</a>
+  </div>
+  <div class="nav-right">
+    <span class="seg">☀️ <strong id="navTemp">28°C</strong> Sơn La</span>
+    <span class="seg">🕐 <strong id="navTime">—:—:—</strong></span>
+    <span class="seg" id="navDate">—</span>
+    <span class="nav-user">👤 Đăng nhập</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-art">
+    <svg viewBox="0 0 1440 460" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#bfe3f5"/>
+          <stop offset="45%" stop-color="#dff0e0"/>
+          <stop offset="100%" stop-color="#eef6e8"/>
+        </linearGradient>
+        <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff4c2" stop-opacity="0.95"/>
+          <stop offset="60%" stop-color="#ffe79a" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#ffe79a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="460" fill="url(#sky)"/>
+      <circle cx="1190" cy="95" r="140" fill="url(#sun)"/>
+      <circle cx="1190" cy="95" r="42" fill="#ffe9a8"/>
+      <g fill="#ffffff" opacity="0.75">
+        <ellipse cx="220" cy="80" rx="70" ry="20"/>
+        <ellipse cx="270" cy="72" rx="48" ry="16"/>
+        <ellipse cx="760" cy="60" rx="60" ry="17"/>
+        <ellipse cx="810" cy="68" rx="40" ry="13"/>
+      </g>
+      <path d="M0,220 L130,140 L280,205 L430,120 L600,195 L770,125 L950,200 L1130,135 L1300,195 L1440,150 L1440,460 L0,460 Z"
+            fill="#9fc4ad" opacity="0.55"/>
+      <path d="M0,260 L190,175 L360,235 L540,155 L720,230 L900,165 L1080,240 L1260,180 L1440,215 L1440,460 L0,460 Z"
+            fill="#79ab8a" opacity="0.7"/>
+      <path d="M0,300 Q220,278 440,298 T880,292 T1320,300 T1440,288 L1440,460 L0,460 Z" fill="#aed68a"/>
+      <path d="M0,320 Q230,300 460,318 T920,312 T1380,320 L1440,316 L1440,460 L0,460 Z" fill="#8fc26b" opacity="0.95"/>
+      <path d="M0,342 Q250,324 500,340 T960,335 T1440,342 L1440,460 L0,460 Z" fill="#6fae52"/>
+      <path d="M0,366 Q260,350 520,364 T1000,360 T1440,366 L1440,460 L0,460 Z" fill="#4f9740"/>
+      <path d="M0,392 Q270,378 540,390 T1040,387 T1440,392 L1440,460 L0,460 Z" fill="#3a8233"/>
+      <path d="M0,310 Q220,290 440,308 T880,302 T1320,310" stroke="#5e9347" stroke-width="1.4" fill="none" opacity="0.4"/>
+      <path d="M0,332 Q230,313 460,330 T920,324 T1380,332" stroke="#4a7e3a" stroke-width="1.4" fill="none" opacity="0.4"/>
+      <path d="M0,355 Q250,338 500,353 T960,349 T1440,355" stroke="#3c6c2f" stroke-width="1.4" fill="none" opacity="0.4"/>
+      <g fill="#2e6b2a">
+        <path d="M120,288 l11,-22 l11,22 l-7,0 l0,9 l-8,0 l0,-9 Z"/>
+        <path d="M160,292 l9,-18 l9,18 l-6,0 l0,7 l-6,0 l0,-7 Z"/>
+        <path d="M980,282 l11,-22 l11,22 l-7,0 l0,9 l-8,0 l0,-9 Z"/>
+        <path d="M1020,288 l9,-18 l9,18 l-6,0 l0,7 l-6,0 l0,-7 Z"/>
+        <path d="M1180,295 l10,-20 l10,20 l-6,0 l0,8 l-8,0 l0,-8 Z"/>
+      </g>
+      <g fill="#3a2616" opacity="0.85">
+        <path d="M300,318 l14,-12 l14,12 v14 h-28 Z"/>
+        <path d="M640,330 l12,-10 l12,10 v12 h-24 Z"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>TRUNG TÂM ĐIỀU HÀNH THÔNG MINH</h1>
+    <div class="sub">NÔNG NGHIỆP VÀ MÔI TRƯỜNG TỈNH SƠN LA</div>
+    <div class="desc">Giám sát – Điều hành – Phân tích – Dự báo – Hỗ trợ ra quyết định vì nền nông nghiệp xanh – môi trường bền vững – phát triển thông minh</div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-card"><div class="stat-ico">📡</div><div><div class="num" id="statTieuChi">—</div><div class="lbl">Chỉ tiêu giám sát</div></div></div>
+    <div class="stat-card"><div class="stat-ico">🗄️</div><div><div class="num" id="statDuLieu">—</div><div class="lbl">Dữ liệu cập nhật</div></div></div>
+    <div class="stat-card"><div class="stat-ico">🔔</div><div><div class="num" id="statCanhBao">—</div><div class="lbl">Cảnh báo đang hoạt động</div></div></div>
+    <div class="stat-card"><div class="stat-ico">👥</div><div><div class="num" id="statNguoiDung">—</div><div class="lbl">Người dùng hệ thống</div></div></div>
+  </div>
+  <div class="body-pad"></div>
+</div>
+
+<div class="section" id="section-domains" style="margin-top:24px;">
+  <div class="domain-grid">
+
+    <div class="domain-tile soon dt-datdai">
+      <span class="ico">🏠</span>
+      <div><div class="name">ĐẤT ĐAI</div><div class="desc">Giám sát, quản lý và thống kê đất đai</div></div>
+    </div>
+
+    <a class="domain-tile live dt-khoangsan" href="https://trungnguyensonla-afk.github.io/kb03-khoang-san/" target="_blank" rel="noopener">
+      <span class="pulse"></span>
+      <span class="ico">⛏️</span>
+      <div><div class="name">KHOÁNG SẢN</div><div class="desc">Quản lý, giám sát hoạt động khai thác khoáng sản</div></div>
+    </a>
+
+    <div class="domain-tile dt-trongtrot tile-merged span3">
+      <div class="lnm-head">
+        <span class="ico">🌱</span>
+        <span class="name">TRỒNG TRỌT<br>&amp; BVTV</span>
+      </div>
+      <div class="lnm-actions grid2">
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB04-GStiendoxuonggiong/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Tiến độ xuống giống</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB06-GSDientichcocaucaytrong/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Diện tích cơ cấu cây trồng</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB07-GSsaubenh/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Giám sát sâu bệnh</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB08-Caydaudong/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Cây đậu đông</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB09-GSvungnguyenlieu/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Giám sát vùng nguyên liệu</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB11-QLgiongcaytrong/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Quản lý giống cây trồng</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB12-QLphanbon/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Quản lý phân bón</span><span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="domain-tile soon dt-channuoi">
+      <span class="ico">🐄</span>
+      <div><div class="name">CHĂN NUÔI</div><div class="desc">Giám sát đàn vật nuôi, chuồng trại, sản lượng</div></div>
+    </div>
+
+    <div class="domain-tile soon dt-thuy">
+      <span class="ico">🩺</span>
+      <div><div class="name">THÚ Y</div><div class="desc">Giám sát dịch bệnh, tiêm phòng, kiểm dịch</div></div>
+    </div>
+
+    <div class="domain-tile soon dt-thuysan">
+      <span class="ico">🐟</span>
+      <div><div class="name">THỦY SẢN</div><div class="desc">Giám sát nuôi trồng, khai thác thủy sản</div></div>
+    </div>
+
+    <div class="domain-tile soon dt-nongthonmoi">
+      <span class="ico">🏘️</span>
+      <div><div class="name">NÔNG THÔN MỚI</div><div class="desc">Theo dõi tiến độ xây dựng nông thôn mới</div></div>
+    </div>
+
+    <div class="domain-tile dt-lamnghiep tile-merged span2">
+      <div class="lnm-head">
+        <span class="ico">🌲</span>
+        <span class="name">LÂM NGHIỆP</span>
+      </div>
+      <div class="lnm-actions">
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/KB01-GSRUNG/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Giám sát che phủ rừng</span><span>→</span>
+        </a>
+        <a class="lnm-btn" href="https://trungnguyensonla-afk.github.io/kb02-vipham/" target="_blank" rel="noopener">
+          <span class="dot"></span><span class="lbl">Vi phạm lâm nghiệp</span><span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="domain-tile soon dt-thuyloi">
+      <span class="ico">🚰</span>
+      <div><div class="name">THỦY LỢI</div><div class="desc">Giám sát công trình thủy lợi, hồ chứa, tưới tiêu</div></div>
+    </div>
+
+    <div class="domain-tile soon dt-tainguyennuoc">
+      <span class="ico">💧</span>
+      <div><div class="name">TÀI NGUYÊN NƯỚC</div><div class="desc">Giám sát, quản lý và khai thác tài nguyên nước</div></div>
+    </div>
+
+    <div class="domain-tile soon dt-moitruong">
+      <span class="ico">🍃</span>
+      <div><div class="name">MÔI TRƯỜNG</div><div class="desc">Giám sát chất lượng môi trường, rác thải, khí thải</div></div>
+    </div>
+
+    <div class="domain-tile soon dt-baocao">
+      <span class="ico">📊</span>
+      <div><div class="name">BÁO CÁO – THỐNG KÊ</div><div class="desc">Báo cáo tổng hợp, thống kê và phân tích dữ liệu</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section" id="section-panels">
+  <div class="panels-grid">
+
+    <div class="panel">
+      <div class="panel-head"><h3>Bản đồ giám sát tổng hợp</h3><span class="more">Xem chi tiết ▸</span></div>
+      <div class="panel-body">
+        <svg class="map-svg" viewBox="0 0 400 200">
+          <path d="M40,30 L120,15 L180,35 L240,20 L320,45 L360,90 L340,140 L290,170 L220,180 L150,165 L90,150 L50,110 L30,70 Z"
+                fill="rgba(31,122,76,0.08)" stroke="rgba(31,122,76,0.45)" stroke-width="1.5"/>
+          <circle cx="110" cy="70" r="5" fill="#1f7a4c"/>
+          <circle cx="200" cy="60" r="5" fill="#c9772f"/>
+          <circle cx="260" cy="100" r="5" fill="#1c93a8"/>
+          <circle cx="160" cy="120" r="5" fill="#c1272d"/>
+          <circle cx="230" cy="140" r="5" fill="#1f7a4c"/>
+          <circle cx="300" cy="80" r="5" fill="#d4a017"/>
+        </svg>
+        <div class="map-legend">
+          <span><i style="background:#c9772f"></i>Đất đai</span>
+          <span><i style="background:#1f7a4c"></i>Rừng</span>
+          <span><i style="background:#1c93a8"></i>Thủy lợi</span>
+          <span><i style="background:#d4a017"></i>Nguồn nước</span>
+          <span><i style="background:#c1272d"></i>Cảnh báo</span>
+        </div>
+        <button class="map-btn">Xem chi tiết bản đồ</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3>Biểu đồ thống kê</h3><span class="more">Năm 2026 ▾</span></div>
+      <div class="panel-body">
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#eef2ef" stroke-width="16"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#c9772f" stroke-width="16"
+              stroke-dasharray="75.4 226.2" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#1f7a4c" stroke-width="16"
+              stroke-dasharray="90.5 226.2" stroke-dashoffset="-75.4" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#1c93a8" stroke-width="16"
+              stroke-dasharray="45.2 226.2" stroke-dashoffset="-165.9" transform="rotate(-90 60 60)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#d4a017" stroke-width="16"
+              stroke-dasharray="15.1 226.2" stroke-dashoffset="-211.1" transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="donut-legend">
+            <div class="row"><span class="k"><i style="background:#c9772f"></i>Đất đai</span><span class="v">25%</span></div>
+            <div class="row"><span class="k"><i style="background:#1f7a4c"></i>Nông nghiệp</span><span class="v">30%</span></div>
+            <div class="row"><span class="k"><i style="background:#1c93a8"></i>Thủy sản</span><span class="v">15%</span></div>
+            <div class="row"><span class="k"><i style="background:#d4a017"></i>Môi trường</span><span class="v">12%</span></div>
+            <div class="row"><span class="k"><i style="background:#7d9286"></i>Khác</span><span class="v">18%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3>Tin tức – Thông báo</h3><span class="more">Xem tất cả ▸</span></div>
+      <div class="panel-body">
+        <div class="feed-item">
+          <div class="feed-ico news">📰</div>
+          <div class="feed-txt"><div class="t">Sơn La: Tăng cường phòng trừ sâu bệnh hại trên cây trồng vụ Xuân Hè</div><div class="d">30/06/2026</div></div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-ico news">📰</div>
+          <div class="feed-txt"><div class="t">Cảnh báo mưa lớn diện rộng trên địa bàn tỉnh Sơn La</div><div class="d">29/06/2026</div></div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-ico news">📰</div>
+          <div class="feed-txt"><div class="t">Hội nghị trực tuyến về phát triển nông nghiệp bền vững năm 2026</div><div class="d">28/06/2026</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel" style="margin-bottom:32px;">
+    <div class="panel-head"><h3>Cảnh báo mới nhất</h3><span class="more">Xem tất cả ▸</span></div>
+    <div class="panel-body" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 24px;">
+      <div class="feed-item"><div class="feed-ico alert">⚠️</div><div class="feed-txt"><div class="t">Cảnh báo mưa lớn</div><div class="d">Huyện Mộc Châu, Vân Hồ, Bắc Yên</div></div></div>
+      <div class="feed-item"><div class="feed-ico alert">⚠️</div><div class="feed-txt"><div class="t">Dịch bệnh trên đàn gia súc</div><div class="d">Huyện Phù Yên, Mai Sơn</div></div></div>
+      <div class="feed-item"><div class="feed-ico alert">⚠️</div><div class="feed-txt"><div class="t">Sâu bệnh hại cây trồng</div><div class="d">Huyện Yên Châu, Sông Mã</div></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-left">
+    <div>IOC NÔNG NGHIỆP VÀ MÔI TRƯỜNG TỈNH SƠN LA</div>
+    <div>Địa chỉ: Số 22, Đường Hoàng Quốc Việt, Phường Chiềng Cơi, TP. Sơn La, Tỉnh Sơn La</div>
+    <div>© 2026 Trung tâm IOC Nông nghiệp và Môi trường tỉnh Sơn La. All rights reserved.</div>
+  </div>
+  <div class="f-social">
+    <span>f</span><span>z</span><span>🌐</span>
+  </div>
+</footer>
+
+<script>
+function pad(n){ return String(n).padStart(2,'0'); }
+const WEEKDAY = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+function tick(){
+  const d = new Date();
+  document.getElementById('navTime').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  document.getElementById('navDate').textContent = `${WEEKDAY[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+}
+tick(); setInterval(tick, 1000);
+
+function animateNum(id, target, suffix=''){
+  const el = document.getElementById(id);
+  let cur = 0;
+  const step = Math.max(1, Math.round(target/40));
+  const t = setInterval(()=>{
+    cur += step;
+    if(cur >= target){ cur = target; clearInterval(t); }
+    el.textContent = cur.toLocaleString('vi-VN') + suffix;
+  }, 25);
+}
+animateNum('statTieuChi', 24);
+animateNum('statDuLieu', 1888);
+animateNum('statCanhBao', 5);
+animateNum('statNguoiDung', 42);
+</script>
+</body>
+</html>
